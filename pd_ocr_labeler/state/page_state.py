@@ -318,37 +318,6 @@ class PageState:
 
         return page_model
 
-    def copy_ground_truth_to_ocr(self, line_index: int) -> bool:
-        """Copy ground truth text to OCR text for all words in the specified line.
-
-        Args:
-            line_index: Zero-based line index to process
-
-        Returns:
-            bool: True if any modifications were made, False otherwise
-        """
-        page = self.current_page
-        if not page:
-            logger.critical("No page available for GT→OCR copy.")
-            return False
-
-        # Import inside method to allow test monkeypatching
-        try:
-            from ..operations.ocr.line_operations import LineOperations
-
-            line_ops = LineOperations()
-            result = line_ops.copy_ground_truth_to_ocr(page, line_index)
-
-            if result:
-                # Trigger UI refresh to show updated matches
-                self._invalidate_text_cache()
-                self.notify()
-
-            return result
-        except Exception:
-            logger.exception("Error in GT→OCR copy for line %s", line_index)
-            return False
-
     def copy_ocr_to_ground_truth(self, line_index: int) -> bool:
         """Copy OCR text to ground truth text for all words in the specified line.
 

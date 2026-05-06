@@ -90,9 +90,8 @@ without leaving the keyboard.
 ### Bulk copy
 
 If OCR is right and GT is wrong (or missing), use the **OCR→GT** copy
-on the line; the reverse direction (**GT→OCR**) overwrites OCR with
-GT. Both buttons exist at line, paragraph, and page scope on the
-toolbar — pick the smallest scope that's correct.
+on the line. The button exists at line, paragraph, and page scope on
+the toolbar — pick the smallest scope that's correct.
 
 ### Word edit dialog
 
@@ -116,7 +115,7 @@ Use the zoom slider in the dialog to inspect details (0.5×–2×).
 ## 6. Edit lines, paragraphs, and pages
 
 The toolbar has a row per scope (**Page / Paragraph / Line / Word**).
-The columns are consistent: refine, copy GT↔OCR, validate, delete,
+The columns are consistent: refine, copy OCR→GT, validate, delete,
 plus scope-specific actions (merge, split, group). Selection drives
 scope:
 
@@ -133,8 +132,8 @@ Common moves:
 - **Delete** rows that are header / footer / page number noise the
   layout pass missed.
 
-Per-line buttons on the line card itself give you GT→OCR / OCR→GT /
-Validate / Delete shortcuts without using the toolbar.
+Per-line buttons on the line card itself give you OCR→GT / Validate /
+Delete shortcuts without using the toolbar.
 
 ## 7. Tag styles and components
 
@@ -195,8 +194,8 @@ locations).
   keeps your working set small.
 - **Refine bboxes at page scope first.** Saves a lot of per-word
   nudging.
-- **Use OCR→GT (or GT→OCR) at line scope** when the whole line is
-  one-sided right; faster than per-word.
+- **Use OCR→GT at line scope** when the whole line's OCR is correct
+  and GT is wrong; faster than per-word.
 - **Mismatches filter** for cleanup at the end of a page.
 - **Tab / Shift-Tab** keep your hands on the keyboard during the long
   middle stretch of a page.

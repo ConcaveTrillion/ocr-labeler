@@ -29,13 +29,9 @@ class WordMatchToolbar:
         # Button refs
         self.merge_lines_button = None
         self.delete_lines_button = None
-        self.copy_gt_to_ocr_page_button = None
         self.copy_ocr_to_gt_page_button = None
-        self.copy_gt_to_ocr_paragraphs_button = None
         self.copy_ocr_to_gt_paragraphs_button = None
-        self.copy_gt_to_ocr_lines_button = None
         self.copy_ocr_to_gt_lines_button = None
-        self.copy_gt_to_ocr_words_button = None
         self.copy_ocr_to_gt_words_button = None
         self.refine_lines_button = None
         self.expand_then_refine_lines_button = None
@@ -86,10 +82,10 @@ class WordMatchToolbar:
         """Build the scope-action icon grid (Page/Paragraph/Line/Word operations)."""
         # Operations grid: columns = scope label | Merge | Refine | Expand+Refine |
         # Expand Bboxes | Split After | Split Select | Word Select | To Paragraph |
-        # GT->OCR | OCR->GT | Validate | Unvalidate | Delete
+        # OCR->GT | Validate | Unvalidate | Delete
         with (
             ui.grid(
-                columns="auto auto auto auto auto auto auto auto auto auto auto auto auto auto"
+                columns="auto auto auto auto auto auto auto auto auto auto auto auto auto"
             )
             .classes("items-center justify-items-center w-auto pl-2")
             .style("display: inline-grid; column-gap: 2px; row-gap: 2px")
@@ -124,15 +120,6 @@ class WordMatchToolbar:
             ui.element("div")  # no Split Select for page
             ui.element("div")  # no Word Select for page
             ui.element("div")  # no To Paragraph for page
-            self.copy_gt_to_ocr_page_button = ui.button(
-                icon="content_copy",
-                on_click=self._view.actions._handle_copy_page_gt_to_ocr,
-            ).tooltip("Copy all ground truth text to OCR on this page")
-            self.copy_gt_to_ocr_page_button.props(
-                'data-testid="page-copy-gt-to-ocr-button"'
-            )
-            self.copy_gt_to_ocr_page_button.classes("copy-icon-flip")
-            style_word_icon_button(self.copy_gt_to_ocr_page_button)
             self.copy_ocr_to_gt_page_button = ui.button(
                 icon="content_copy",
                 on_click=self._view.actions._handle_copy_page_ocr_to_gt,
@@ -202,15 +189,6 @@ class WordMatchToolbar:
             ui.element("div")  # no Split Select for paragraph
             ui.element("div")  # no Word->Paragraph on paragraph scope
             ui.element("div")  # no To Paragraph on paragraph scope
-            self.copy_gt_to_ocr_paragraphs_button = ui.button(
-                icon="content_copy",
-                on_click=self._view.actions._handle_copy_selected_paragraphs_gt_to_ocr,
-            ).tooltip("Copy ground truth text to OCR for selected paragraphs")
-            self.copy_gt_to_ocr_paragraphs_button.props(
-                'data-testid="paragraph-copy-gt-to-ocr-button"'
-            )
-            self.copy_gt_to_ocr_paragraphs_button.classes("copy-icon-flip")
-            style_word_icon_button(self.copy_gt_to_ocr_paragraphs_button)
             self.copy_ocr_to_gt_paragraphs_button = ui.button(
                 icon="content_copy",
                 on_click=self._view.actions._handle_copy_selected_paragraphs_ocr_to_gt,
@@ -299,15 +277,6 @@ class WordMatchToolbar:
                 'data-testid="line-form-paragraph-button"'
             )
             style_word_icon_button(self.split_paragraph_by_selection_button)
-            self.copy_gt_to_ocr_lines_button = ui.button(
-                icon="content_copy",
-                on_click=self._view.actions._handle_copy_selected_lines_gt_to_ocr,
-            ).tooltip("Copy ground truth text to OCR for selected lines")
-            self.copy_gt_to_ocr_lines_button.props(
-                'data-testid="line-copy-gt-to-ocr-toolbar-button"'
-            )
-            self.copy_gt_to_ocr_lines_button.classes("copy-icon-flip")
-            style_word_icon_button(self.copy_gt_to_ocr_lines_button)
             self.copy_ocr_to_gt_lines_button = ui.button(
                 icon="content_copy",
                 on_click=self._view.actions._handle_copy_selected_lines_ocr_to_gt,
@@ -391,15 +360,6 @@ class WordMatchToolbar:
                 'data-testid="word-form-paragraph-button"'
             )
             style_word_icon_button(self.group_selected_words_into_paragraph_button)
-            self.copy_gt_to_ocr_words_button = ui.button(
-                icon="content_copy",
-                on_click=self._view.actions._handle_copy_selected_words_gt_to_ocr,
-            ).tooltip("Copy ground truth text to OCR for selected words")
-            self.copy_gt_to_ocr_words_button.props(
-                'data-testid="word-copy-gt-to-ocr-button"'
-            )
-            self.copy_gt_to_ocr_words_button.classes("copy-icon-flip")
-            style_word_icon_button(self.copy_gt_to_ocr_words_button)
             self.copy_ocr_to_gt_words_button = ui.button(
                 icon="content_copy",
                 on_click=self._view.actions._handle_copy_selected_words_ocr_to_gt,
@@ -873,22 +833,10 @@ class WordMatchToolbar:
                 and len(self._view.selection.selected_word_indices) >= 1
             )
 
-        if self.copy_gt_to_ocr_page_button is not None:
-            self.copy_gt_to_ocr_page_button.enabled = (
-                self._view.copy_gt_to_ocr_callback is not None
-                and len(self._view._get_all_line_indices()) >= 1
-            )
-
         if self.copy_ocr_to_gt_page_button is not None:
             self.copy_ocr_to_gt_page_button.enabled = (
                 self._view.copy_ocr_to_gt_callback is not None
                 and len(self._view._get_all_line_indices()) >= 1
-            )
-
-        if self.copy_gt_to_ocr_paragraphs_button is not None:
-            self.copy_gt_to_ocr_paragraphs_button.enabled = (
-                self._view.copy_gt_to_ocr_callback is not None
-                and len(self._view.selection.selected_paragraph_indices) >= 1
             )
 
         if self.copy_ocr_to_gt_paragraphs_button is not None:
@@ -897,22 +845,10 @@ class WordMatchToolbar:
                 and len(self._view.selection.selected_paragraph_indices) >= 1
             )
 
-        if self.copy_gt_to_ocr_lines_button is not None:
-            self.copy_gt_to_ocr_lines_button.enabled = (
-                self._view.copy_gt_to_ocr_callback is not None
-                and len(selected_lines) >= 1
-            )
-
         if self.copy_ocr_to_gt_lines_button is not None:
             self.copy_ocr_to_gt_lines_button.enabled = (
                 self._view.copy_ocr_to_gt_callback is not None
                 and len(selected_lines) >= 1
-            )
-
-        if self.copy_gt_to_ocr_words_button is not None:
-            self.copy_gt_to_ocr_words_button.enabled = (
-                self._view.copy_gt_to_ocr_callback is not None
-                and len(self._view.selection.selected_word_indices) >= 1
             )
 
         if self.copy_ocr_to_gt_words_button is not None:

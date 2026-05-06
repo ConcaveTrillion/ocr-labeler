@@ -3,6 +3,10 @@
 Phased plan for achieving full browser-test coverage of every action button
 listed in `docs/architecture/ui-action-buttons.md`.
 
+> **Note:** The GT→OCR copy buttons (rows 20, 28, 39, 49, 58) and their
+> corresponding tests in this plan are obsolete — those buttons have
+> been removed from the UI. The OCR→GT counterparts remain.
+
 ## Conventions
 
 All new tests follow the existing patterns in `tests/browser/`:

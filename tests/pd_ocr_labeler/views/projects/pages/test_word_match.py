@@ -165,54 +165,6 @@ def test_copy_ocr_to_gt_no_ocr_text(monkeypatch):
     assert "No OCR text found" in seen["message"]
 
 
-def test_top_grid_copy_page_gt_to_ocr_uses_all_lines(monkeypatch):
-    seen: dict[str, object] = {}
-
-    view = WordMatchView()
-    view.view_model.line_matches = [
-        SimpleNamespace(
-            line_index=2,
-            paragraph_index=0,
-            word_matches=[WordMatch("a", "a", MatchStatus.EXACT, word_index=0)],
-        ),
-        SimpleNamespace(
-            line_index=0,
-            paragraph_index=0,
-            word_matches=[WordMatch("b", "b", MatchStatus.EXACT, word_index=0)],
-        ),
-        SimpleNamespace(
-            line_index=1,
-            paragraph_index=1,
-            word_matches=[WordMatch("c", "c", MatchStatus.EXACT, word_index=0)],
-        ),
-    ]
-    view.selection.selected_line_indices = {99}
-    view.selection.selected_word_indices = {(99, 0)}
-    view.selection.selected_paragraph_indices = {9}
-    monkeypatch.setattr(view, "_safe_notify", lambda *args, **kwargs: None)
-
-    def copy_callback(line_index: int) -> bool:
-        seen.setdefault("calls", []).append(line_index)
-        seen["line_selection_during_callback"] = sorted(
-            view.selection.selected_line_indices
-        )
-        seen["word_selection_during_callback"] = sorted(
-            view.selection.selected_word_indices
-        )
-        seen["paragraph_selection_during_callback"] = sorted(
-            view.selection.selected_paragraph_indices
-        )
-        return True
-
-    view.copy_gt_to_ocr_callback = copy_callback
-    view.actions._handle_copy_page_gt_to_ocr()
-
-    assert seen["calls"] == [0, 1, 2]
-    assert seen["line_selection_during_callback"] == []
-    assert seen["word_selection_during_callback"] == []
-    assert seen["paragraph_selection_during_callback"] == []
-
-
 def test_top_grid_copy_paragraph_ocr_to_gt_uses_selected_paragraph_lines(monkeypatch):
     seen: dict[str, object] = {}
 
@@ -245,24 +197,6 @@ def test_top_grid_copy_paragraph_ocr_to_gt_uses_selected_paragraph_lines(monkeyp
     view.actions._handle_copy_selected_paragraphs_ocr_to_gt()
 
     assert seen["calls"] == [1, 3]
-
-
-def test_top_grid_copy_lines_gt_to_ocr_uses_effective_selected_lines(monkeypatch):
-    seen: dict[str, object] = {}
-
-    view = WordMatchView()
-    view.selection.selected_line_indices = {4}
-    view.selection.selected_word_indices = {(2, 0), (2, 1)}
-    monkeypatch.setattr(view, "_safe_notify", lambda *args, **kwargs: None)
-
-    def copy_callback(line_index: int) -> bool:
-        seen.setdefault("calls", []).append(line_index)
-        return True
-
-    view.copy_gt_to_ocr_callback = copy_callback
-    view.actions._handle_copy_selected_lines_gt_to_ocr()
-
-    assert seen["calls"] == [2, 4]
 
 
 def test_top_grid_copy_words_ocr_to_gt_uses_selected_words_only(monkeypatch):

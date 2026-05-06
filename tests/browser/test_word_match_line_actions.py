@@ -11,7 +11,6 @@ from .helpers import load_project, wait_for_app_ready, wait_for_page_loaded
 # Selectors
 # ---------------------------------------------------------------------------
 
-LINE_GT_TO_OCR = '[data-testid="line-gt-to-ocr-button"]'
 LINE_OCR_TO_GT = '[data-testid="line-ocr-to-gt-button"]'
 LINE_VALIDATE = '[data-testid="line-validate-button"]'
 LINE_DELETE = '[data-testid="line-delete-button"]'
@@ -117,39 +116,6 @@ def test_paragraph_expander_icon(browser_app_url: str, browser_page) -> None:
     # Icon should now be chevron_right
     expander = page.locator(PARAGRAPH_EXPANDER).first
     expect(expander.locator("text=chevron_right")).to_be_visible()
-
-
-# ---------------------------------------------------------------------------
-# Line copy GT→OCR
-# ---------------------------------------------------------------------------
-
-
-@pytest.mark.browser
-def test_line_copy_gt_to_ocr(browser_app_url: str, browser_page) -> None:
-    """Click GT→OCR on a line: OCR labels update to match GT input values."""
-    page = browser_page
-    _setup(page, browser_app_url)
-
-    # Wait for line cards to render before checking button presence
-    page.locator(LINE_DELETE).first.wait_for(state="visible", timeout=15_000)
-    gt_to_ocr = page.locator(LINE_GT_TO_OCR).first
-    # GT→OCR only appears on non-exact lines, so may not exist. Skip if absent.
-    if gt_to_ocr.count() == 0:
-        pytest.skip("No GT→OCR button rendered (all lines may be exact matches)")
-
-    # Read first word's GT input value before action
-    gt_input = page.locator(".q-field--outlined input").first
-    expect(gt_input).to_be_visible()
-    gt_value = gt_input.input_value()
-
-    # Click GT→OCR for the first line
-    gt_to_ocr.click()
-    page.wait_for_timeout(1000)
-
-    # After GT→OCR, the OCR label for that word should match the GT value
-    first_ocr = page.locator(".monospace").first
-    expect(first_ocr).to_be_visible()
-    expect(first_ocr).to_have_text(gt_value)
 
 
 # ---------------------------------------------------------------------------

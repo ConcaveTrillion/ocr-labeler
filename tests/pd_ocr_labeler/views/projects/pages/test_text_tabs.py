@@ -62,7 +62,6 @@ def test_text_tabs_detaches_stale_listeners_when_ui_is_disposed():
         current_ocr_text="",
         current_page=None,
         _current_page_index=0,
-        copy_ground_truth_to_ocr=lambda *_: False,
     )
 
     text_tabs = TextTabs(page_state=page_state)
@@ -121,7 +120,6 @@ def test_text_tabs_skips_duplicate_word_match_update_for_same_page_payload():
         current_ocr_text="",
         current_page=None,
         _current_page_index=0,
-        copy_ground_truth_to_ocr=lambda *_: False,
     )
 
     text_tabs = TextTabs(page_state=page_state)
@@ -153,7 +151,6 @@ def test_text_tabs_updates_when_line_payload_changes_even_if_page_object_same():
         current_ocr_text="",
         current_page=None,
         _current_page_index=0,
-        copy_ground_truth_to_ocr=lambda *_: False,
         merge_lines=lambda *_: True,
     )
 
@@ -188,7 +185,6 @@ def test_text_tabs_updates_when_ground_truth_changes_even_if_ocr_text_unchanged(
         current_ocr_text="",
         current_page=None,
         _current_page_index=0,
-        copy_ground_truth_to_ocr=lambda *_: False,
     )
 
     text_tabs = TextTabs(page_state=page_state)
@@ -226,7 +222,6 @@ def test_text_tabs_updates_when_word_style_changes_even_if_text_unchanged():
         current_ocr_text="",
         current_page=None,
         _current_page_index=0,
-        copy_ground_truth_to_ocr=lambda *_: False,
     )
 
     text_tabs = TextTabs(page_state=page_state)
@@ -266,7 +261,6 @@ def test_text_tabs_updates_when_paragraph_structure_changes_even_if_lines_same()
         current_ocr_text="",
         current_page=None,
         _current_page_index=0,
-        copy_ground_truth_to_ocr=lambda *_: False,
     )
 
     text_tabs = TextTabs(page_state=page_state)
@@ -407,7 +401,6 @@ def test_text_tabs_ocr_to_gt_callback_invokes_page_state_method():
         current_ocr_text="",
         current_page=None,
         _current_page_index=0,
-        copy_ground_truth_to_ocr=lambda *_: False,
         copy_ocr_to_ground_truth=lambda line_index: calls.append((line_index,)) or True,
     )
 
@@ -433,7 +426,6 @@ def test_text_tabs_edit_word_gt_callback_invokes_page_state_method():
         current_ocr_text="",
         current_page=None,
         _current_page_index=0,
-        copy_ground_truth_to_ocr=lambda *_: False,
         update_word_ground_truth=lambda line_index, word_index, text: (
             calls.append((line_index, word_index, text)) or True
         ),
@@ -465,7 +457,6 @@ def test_text_tabs_set_word_attributes_callback_invokes_page_state_method():
         current_ocr_text="",
         current_page=None,
         _current_page_index=0,
-        copy_ground_truth_to_ocr=lambda *_: False,
         update_word_attributes=lambda line_index, word_index, italic, small_caps, blackletter, left_footnote, right_footnote: (
             calls.append(
                 (
@@ -532,7 +523,6 @@ def test_text_tabs_word_style_event_routes_to_targeted_view_update():
         current_ocr_text="",
         current_page=page,
         _current_page_index=0,
-        copy_ground_truth_to_ocr=lambda *_: False,
         update_word_attributes=update_word_attributes,
     )
 
@@ -594,7 +584,6 @@ def test_text_tabs_word_gt_event_routes_to_targeted_view_update():
         current_ocr_text="",
         current_page=page,
         _current_page_index=0,
-        copy_ground_truth_to_ocr=lambda *_: False,
         update_word_ground_truth=update_word_ground_truth,
     )
 
@@ -673,7 +662,6 @@ def test_text_tabs_word_style_event_coalesces_only_same_page_refresh():
         current_ocr_text="",
         current_page=page_one,
         _current_page_index=0,
-        copy_ground_truth_to_ocr=lambda *_: False,
         update_word_attributes=update_word_attributes,
     )
 
@@ -753,7 +741,6 @@ def test_text_tabs_word_gt_event_coalesces_only_same_page_refresh():
         current_ocr_text="",
         current_page=page_one,
         _current_page_index=0,
-        copy_ground_truth_to_ocr=lambda *_: False,
         update_word_ground_truth=update_word_ground_truth,
     )
 
@@ -789,7 +776,6 @@ def test_text_tabs_merge_paragraphs_callback_invokes_page_state_method():
         current_ocr_text="",
         current_page=None,
         _current_page_index=0,
-        copy_ground_truth_to_ocr=lambda *_: False,
         merge_paragraphs=lambda paragraph_indices: (
             calls.append((paragraph_indices,)) or True
         ),
@@ -817,7 +803,6 @@ def test_text_tabs_split_paragraph_after_line_callback_invokes_page_state_method
         current_ocr_text="",
         current_page=None,
         _current_page_index=0,
-        copy_ground_truth_to_ocr=lambda *_: False,
         merge_paragraphs=lambda *_: False,
         split_paragraph_after_line=lambda line_index: (
             calls.append((line_index,)) or True
@@ -845,7 +830,6 @@ def test_text_tabs_split_paragraph_with_selected_lines_callback_invokes_page_sta
         current_ocr_text="",
         current_page=None,
         _current_page_index=0,
-        copy_ground_truth_to_ocr=lambda *_: False,
         merge_paragraphs=lambda *_: False,
         split_paragraph_after_line=lambda *_: False,
         split_paragraph_with_selected_lines=lambda line_indices: (
@@ -876,7 +860,6 @@ def test_text_tabs_split_line_after_word_callback_invokes_page_state_method():
         current_ocr_text="",
         current_page=None,
         _current_page_index=0,
-        copy_ground_truth_to_ocr=lambda *_: False,
         merge_paragraphs=lambda *_: False,
         split_paragraph_after_line=lambda *_: False,
         split_paragraph_with_selected_lines=lambda *_: False,
@@ -906,7 +889,6 @@ def test_text_tabs_group_selected_words_into_paragraph_callback_invokes_page_sta
         current_ocr_text="",
         current_page=None,
         _current_page_index=0,
-        copy_ground_truth_to_ocr=lambda *_: False,
         merge_paragraphs=lambda *_: False,
         split_paragraph_after_line=lambda *_: False,
         split_paragraph_with_selected_lines=lambda *_: False,
@@ -939,7 +921,6 @@ def test_text_tabs_delete_paragraphs_callback_invokes_page_state_method():
         current_ocr_text="",
         current_page=None,
         _current_page_index=0,
-        copy_ground_truth_to_ocr=lambda *_: False,
         merge_paragraphs=lambda *_: False,
         split_paragraph_after_line=lambda *_: False,
         split_paragraph_with_selected_lines=lambda *_: False,
@@ -969,7 +950,6 @@ def test_text_tabs_delete_words_callback_invokes_page_state_method():
         current_ocr_text="",
         current_page=None,
         _current_page_index=0,
-        copy_ground_truth_to_ocr=lambda *_: False,
         merge_paragraphs=lambda *_: False,
         split_paragraph_after_line=lambda *_: False,
         split_paragraph_with_selected_lines=lambda *_: False,
@@ -998,7 +978,6 @@ def test_text_tabs_merge_word_left_callback_invokes_page_state_method():
         current_ocr_text="",
         current_page=None,
         _current_page_index=0,
-        copy_ground_truth_to_ocr=lambda *_: False,
         merge_paragraphs=lambda *_: False,
         split_paragraph_after_line=lambda *_: False,
         split_paragraph_with_selected_lines=lambda *_: False,
@@ -1031,7 +1010,6 @@ def test_text_tabs_merge_word_right_callback_invokes_page_state_method():
         current_ocr_text="",
         current_page=None,
         _current_page_index=0,
-        copy_ground_truth_to_ocr=lambda *_: False,
         merge_paragraphs=lambda *_: False,
         split_paragraph_after_line=lambda *_: False,
         split_paragraph_with_selected_lines=lambda *_: False,
@@ -1064,7 +1042,6 @@ def test_text_tabs_split_word_callback_invokes_page_state_method():
         current_ocr_text="",
         current_page=None,
         _current_page_index=0,
-        copy_ground_truth_to_ocr=lambda *_: False,
         merge_paragraphs=lambda *_: False,
         split_paragraph_after_line=lambda *_: False,
         split_paragraph_with_selected_lines=lambda *_: False,
@@ -1098,7 +1075,6 @@ def test_text_tabs_vertical_split_word_callback_invokes_page_state_method():
         current_ocr_text="",
         current_page=None,
         _current_page_index=0,
-        copy_ground_truth_to_ocr=lambda *_: False,
         merge_paragraphs=lambda *_: False,
         split_paragraph_after_line=lambda *_: False,
         split_paragraph_with_selected_lines=lambda *_: False,
@@ -1139,7 +1115,6 @@ def test_text_tabs_rebox_word_callback_invokes_page_state_method():
         current_ocr_text="",
         current_page=None,
         _current_page_index=0,
-        copy_ground_truth_to_ocr=lambda *_: False,
         merge_paragraphs=lambda *_: False,
         split_paragraph_after_line=lambda *_: False,
         split_paragraph_with_selected_lines=lambda *_: False,
@@ -1181,7 +1156,6 @@ def test_text_tabs_refine_words_callback_invokes_page_state_method():
         current_ocr_text="",
         current_page=None,
         _current_page_index=0,
-        copy_ground_truth_to_ocr=lambda *_: False,
         refine_words=lambda word_keys: calls.append((word_keys,)) or True,
     )
 
@@ -1206,7 +1180,6 @@ def test_text_tabs_refine_lines_callback_invokes_page_state_method():
         current_ocr_text="",
         current_page=None,
         _current_page_index=0,
-        copy_ground_truth_to_ocr=lambda *_: False,
         refine_lines=lambda line_indices: calls.append((line_indices,)) or True,
     )
 
@@ -1231,7 +1204,6 @@ def test_text_tabs_refine_paragraphs_callback_invokes_page_state_method():
         current_ocr_text="",
         current_page=None,
         _current_page_index=0,
-        copy_ground_truth_to_ocr=lambda *_: False,
         refine_paragraphs=lambda paragraph_indices: (
             calls.append((paragraph_indices,)) or True
         ),
@@ -1258,7 +1230,6 @@ def test_text_tabs_nudge_word_bbox_callback_invokes_page_state_method():
         current_ocr_text="",
         current_page=None,
         _current_page_index=0,
-        copy_ground_truth_to_ocr=lambda *_: False,
         nudge_word_bbox=lambda line_index, word_index, left_delta, right_delta, top_delta, bottom_delta, refine_after=True: (
             calls.append(
                 (
@@ -1304,7 +1275,6 @@ def test_text_tabs_erase_pixels_rect_callback_invokes_page_state_method():
         current_ocr_text="",
         current_page=None,
         _current_page_index=0,
-        copy_ground_truth_to_ocr=lambda *_: False,
         erase_pixels_rect=lambda x1, y1, x2, y2: calls.append((x1, y1, x2, y2)) or True,
     )
 
@@ -1334,7 +1304,6 @@ def test_text_tabs_expand_then_refine_words_callback_invokes_page_state_method()
         current_ocr_text="",
         current_page=None,
         _current_page_index=0,
-        copy_ground_truth_to_ocr=lambda *_: False,
         expand_then_refine_words=lambda word_keys: calls.append((word_keys,)) or True,
     )
 

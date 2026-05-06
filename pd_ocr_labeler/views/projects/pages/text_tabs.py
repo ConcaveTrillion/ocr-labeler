@@ -147,10 +147,6 @@ class TextTabs:
 
         self._register_state_listeners()
 
-        # Create callback for GT→OCR copy functionality
-        copy_callback = _make_page_callback(
-            page_state, "copy_ground_truth_to_ocr", "Copy GT to OCR"
-        )
         copy_ocr_to_gt_callback = _make_page_callback(
             page_state, "copy_ocr_to_ground_truth", "Copy OCR to GT"
         )
@@ -341,7 +337,6 @@ class TextTabs:
                 page_state._project_state.queue_notification(message, type_)
 
         self.word_match_view = WordMatchView(
-            copy_gt_to_ocr_callback=copy_callback,
             copy_ocr_to_gt_callback=copy_ocr_to_gt_callback,
             copy_selected_words_ocr_to_gt_callback=copy_selected_words_ocr_to_gt_callback,
             merge_lines_callback=merge_lines_callback,

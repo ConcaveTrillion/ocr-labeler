@@ -107,7 +107,8 @@ The trigger is rendered alongside the project load controls
 **Source:** `pd_ocr_labeler/views/projects/pages/word_match_toolbar.py`
 
 Each row shares the same column layout. Columns with "—" indicate the
-operation is not applicable at that scope.
+operation is not applicable at that scope. IDs 20, 28, 39, 49, and 58
+are retired (the GT→OCR copy buttons were removed; OCR→GT remains).
 
 ### 4a. Page Row
 
@@ -115,7 +116,6 @@ operation is not applicable at that scope.
 | --- | --- | --- | --- | --- |
 | 18 | `auto_fix_high` 🔧 | "Refine all bounding boxes on this page" | `_on_refine_bboxes` | No |
 | 19 | `zoom_out_map` | "Expand then refine all bounding boxes on this page" | `_on_expand_refine_bboxes` | No |
-| 20 | `content_copy` (flipped) | "Copy all ground truth text to OCR on this page" | `_handle_copy_page_gt_to_ocr` | No |
 | 21 | `content_copy` | "Copy all OCR text to ground truth on this page" | `_handle_copy_page_ocr_to_gt` | No |
 | 22 | `check_circle` ✓ | "Validate all words on this page" | `_handle_validate_page` | No |
 | 23 | `unpublished` | "Unvalidate all words on this page" | `_handle_unvalidate_page` | No |
@@ -128,7 +128,6 @@ operation is not applicable at that scope.
 | 25 | `auto_fix_high` | "Refine selected paragraphs" | `_handle_refine_selected_paragraphs` | Yes |
 | 26 | `zoom_out_map` | "Expand then refine selected paragraphs" | `_handle_expand_then_refine_selected_paragraphs` | Yes |
 | 27 | `call_split` | "Split the containing paragraph immediately after the selected line" | `_handle_split_paragraph_after_selected_line` | Yes |
-| 28 | `content_copy` (flipped) | "Copy ground truth text to OCR for selected paragraphs" | `_handle_copy_selected_paragraphs_gt_to_ocr` | Yes |
 | 29 | `content_copy` | "Copy OCR text to ground truth for selected paragraphs" | `_handle_copy_selected_paragraphs_ocr_to_gt` | Yes |
 | 30 | `check_circle` | "Validate all words in selected paragraphs" | `_handle_validate_selected_paragraphs` | Yes |
 | 31 | `unpublished` | "Unvalidate all words in selected paragraphs" | `_handle_unvalidate_selected_paragraphs` | Yes |
@@ -144,7 +143,6 @@ operation is not applicable at that scope.
 | 36 | `call_split` | "Split the selected line immediately after the selected word" | `_handle_split_line_after_selected_word` | No |
 | 37 | `vertical_split` | "Split line(s) into selected and unselected words" | `_handle_split_lines_into_selected_unselected_words` | No |
 | 38 | `subject` | "Select lines to form a new paragraph" | `_handle_split_paragraph_by_selected_lines` | No |
-| 39 | `content_copy` (flipped) | "Copy ground truth text to OCR for selected lines" | `_handle_copy_selected_lines_gt_to_ocr` | No |
 | 40 | `content_copy` | "Copy OCR text to ground truth for selected lines" | `_handle_copy_selected_lines_ocr_to_gt` | No |
 | 41 | `check_circle` | "Validate all words in selected lines" | `_handle_validate_selected_lines` | No |
 | 42 | `unpublished` | "Unvalidate all words in selected lines" | `_handle_unvalidate_selected_lines` | No |
@@ -159,7 +157,6 @@ operation is not applicable at that scope.
 | 46 | `zoom_out_map` | "Expand then refine selected words" | `_handle_expand_then_refine_selected_words` | No |
 | 47 | `short_text` | "Form one new line from selected words" | `_handle_split_line_by_selected_words` | No |
 | 48 | `format_paragraph` | "Select words to form a new paragraph (one new line per source line)" | `_handle_group_selected_words_into_new_paragraph` | No |
-| 49 | `content_copy` (flipped) | "Copy ground truth text to OCR for selected words" | `_handle_copy_selected_words_gt_to_ocr` | No |
 | 50 | `content_copy` | "Copy OCR text to ground truth for selected words" | `_handle_copy_selected_words_ocr_to_gt` | No |
 | 51 | `check_circle` | "Validate selected words" | `_handle_validate_selected_words` | No |
 | 52 | `unpublished` | "Unvalidate selected words" | `_handle_unvalidate_selected_words` | No |
@@ -189,7 +186,6 @@ operation is not applicable at that scope.
 
 | # | Label / Icon | Tooltip | Handler | Browser-Tested |
 | --- | --- | --- | --- | --- |
-| 58 | **GT→OCR** `content_copy` | "Copy ground truth text to OCR text for all words in this line" | `_handle_copy_gt_to_ocr` | No |
 | 59 | **OCR→GT** `content_copy` | "Copy OCR text to ground truth text for all words in this line" | `_handle_copy_ocr_to_gt` | No |
 | 60 | **Validate** / **Unvalidate** (`check_circle` / `unpublished`) | Dynamic tooltip with validation count | `_handle_validate_line` | No |
 | 61 | `delete` | "Delete this line" | `_handle_delete_line` | No |
@@ -321,22 +317,22 @@ These are not buttons but have meaningful UI interactions.
 | Header / OCR Config Modal | 7 | 0 | 0% |
 | Navigation Controls | 4 | 3 | 75% |
 | Page Actions | 4 | 2 (one partial) | 50% |
-| Toolbar — Page Row | 6 | 0 | 0% |
-| Toolbar — Paragraph Row | 9 | 0 | 0% |
-| Toolbar — Line Row | 11 | 0 | 0% |
-| Toolbar — Word Row | 10 | 0 | 0% |
+| Toolbar — Page Row | 5 | 0 | 0% |
+| Toolbar — Paragraph Row | 8 | 0 | 0% |
+| Toolbar — Line Row | 10 | 0 | 0% |
+| Toolbar — Word Row | 9 | 0 | 0% |
 | Toolbar — Style/Component | 3 | 2 | 67% |
-| Renderer — Line Buttons | 4 | 0 | 0% |
+| Renderer — Line Buttons | 3 | 0 | 0% |
 | Renderer — Word Buttons | 3 | 1 | 33% |
 | Word Edit Dialog | 29 | 3 | 10% |
 | Other Interactive Controls | 15 | 9 | 60% |
-| **TOTAL** | **114** | **21** | **18%** |
+| **TOTAL** | **109** | **21** | **19%** |
 
 ### Highest-Priority Gaps (by user-impact)
 
-1. **Toolbar scope actions** (36 icon buttons) — 0% covered; core editing workflow
+1. **Toolbar scope actions** (32 icon buttons) — 0% covered; core editing workflow
 2. **Word edit dialog operations** (merge/split/crop/refine/nudge) — 0% covered
-3. **Per-line action buttons** (GT→OCR, Validate, Delete) — 0% covered
+3. **Per-line action buttons** (OCR→GT, Validate, Delete) — 0% covered
 4. **Source folder dialog** (6 buttons) — 0% covered
 5. **Rematch GT button** — not tested at all
 6. **Per-word validate toggle** — not tested

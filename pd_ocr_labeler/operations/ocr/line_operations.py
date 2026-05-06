@@ -43,16 +43,6 @@ class LineOperations:
             return None
         return lines[line_index]
 
-    def copy_ground_truth_to_ocr(self, page: "Page", line_index: int) -> bool:
-        """Copy ground truth text to OCR text for all words in the specified line."""
-        line = self._validated_line(page, line_index)
-        if line is None:
-            return False
-        result = line.copy_ground_truth_to_ocr()
-        if not result:
-            logger.info("No ground truth text found to copy in line %s", line_index)
-        return result
-
     def copy_ocr_to_ground_truth(self, page: "Page", line_index: int) -> bool:
         """Copy OCR text to ground truth text for all words in the specified line."""
         line = self._validated_line(page, line_index)
