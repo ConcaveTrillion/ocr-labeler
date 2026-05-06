@@ -10,7 +10,7 @@ using the 14-commit phased plan in
 
 1. Toolbar scope actions (line + word rows) — 0% currently
 2. Word edit dialog operations (merge/split/crop/refine/nudge) — 0%
-3. Per-line action buttons (GT→OCR, Validate, Delete) — 0%
+3. Per-line action buttons (OCR→GT, Validate, Delete) — 0%
 4. Source folder dialog — 0%
 5. Header/load controls — 11%
 6. Keyboard shortcuts — 0%
@@ -20,6 +20,63 @@ using the 14-commit phased plan in
 
 - All 14 commits from the browser test plan are implemented.
 - `make test-browser` passes reliably with `pytest -n auto`.
+
+---
+
+## Roadmap: Stable data-testid Backfill on Load-Bearing Controls
+
+**Status:** In Progress — Page Actions complete (see Done entry below).
+Project navigation controls (`Prev` / `Next` / `Go To:`) and any
+remaining load-bearing controls still pending.
+
+### Symptom (testid backfill)
+
+The new `pd-ocr-labeler-driver` agent (and any future Playwright-based
+automation) needs stable selectors. Several load-bearing controls
+today have only visible-text labels, which drift over time and create
+silent breakage when copy is reworded. The driver currently falls back
+to `role` / accessible-name lookups for these — works, but brittle:
+any label rename silently turns a click into a no-op or, worse, a
+mis-click on a similarly named control.
+
+### Controls Missing a `data-testid`
+
+| Control label         | Source                                                                  | Proposed testid           | Status |
+|-----------------------|-------------------------------------------------------------------------|---------------------------|--------|
+| `Save Page`           | `pd_ocr_labeler/views/projects/pages/page_actions.py`                   | `save-page-button`        | Done   |
+| `Save Project`        | `pd_ocr_labeler/views/projects/pages/page_actions.py`                   | `save-project-button`     | Done   |
+| `Load Page`           | `pd_ocr_labeler/views/projects/pages/page_actions.py`                   | `load-page-button`        | Done   |
+| `Reload OCR`          | `pd_ocr_labeler/views/projects/pages/page_actions.py`                   | `reload-ocr-button`       | Done   |
+| `Reload OCR (Edited)` | `pd_ocr_labeler/views/projects/pages/page_actions.py`                   | `reload-ocr-edited-button`| Done   |
+| `Rematch GT`          | `pd_ocr_labeler/views/projects/pages/page_actions.py`                   | `rematch-gt-button`       | Done   |
+| `Next`                | `pd_ocr_labeler/views/projects/pages/project_navigation_controls.py:44` | `next-page-button`        | Pending|
+| `Prev`                | `pd_ocr_labeler/views/projects/pages/project_navigation_controls.py:42` | `prev-page-button`        | Pending|
+| `Go To:`              | `pd_ocr_labeler/views/projects/pages/project_navigation_controls.py:46` | `goto-page-button`        | Pending|
+
+### Desired End State (testid backfill)
+
+- Every load-bearing control in the labeler UI carries a stable
+  `data-testid`.
+- The driver agent and Playwright tests select by testid, never by
+  visible text.
+- Naming convention follows the existing pattern
+  (`<scope>-<action>-button`).
+
+### Scope Notes (testid backfill)
+
+- Trivial mechanical change per button:
+  `.props(f"data-testid='<name>'")`.
+- Update `docs/architecture/ui-action-buttons.md` so the table of
+  buttons records each new testid alongside the label.
+- Update the relevant browser/unit test files to select by testid
+  rather than visible text where they currently do the latter.
+- Two concrete reasons to actually do this work:
+  1. The driver agent's contract becomes stable across UI copy
+     changes.
+  2. `Rematch GT` and `Reload OCR` are *forbidden* controls for the
+     driver — defensively detecting them by testid lets the driver
+     hard-fail with a clear message instead of mis-clicking under a
+     renamed label.
 
 ---
 
@@ -38,6 +95,20 @@ button table in `docs/architecture/ui-action-buttons.md` updated to
 record each new testid alongside the label. Navigation controls
 (`Prev` / `Next` / `Go To:`) and other load-bearing controls remain
 on the testid backfill backlog for follow-up iterations.
+
+### Default Projects Folder + Test Isolation (Done)
+
+Persistence layer (`ConfigOperations`, `SessionStateOperations`) reads
+XDG dirs at call time, so tests redirect `XDG_CONFIG_HOME` /
+`XDG_DATA_HOME` / `XDG_CACHE_HOME` to a tmp tree via a session-scoped
+autouse fixture in `tests/conftest.py`; browser-test subprocesses get
+the same env in `tests/browser/conftest.py`. Two regression tests in
+`tests/pd_ocr_labeler/operations/persistence/test_persistence_isolation.py`
+assert no leakage to the real user home. The in-container default
+projects folder
+(`/home/vscode/.local/share/pd-ocr-labeler/source-pgdp-data/output`)
+is provided by a nested bind mount in `.devcontainer/devcontainer.json`
+overlaying `${localWorkspaceFolder}/source-pgdp-data`.
 
 ### Session Restore (Done)
 

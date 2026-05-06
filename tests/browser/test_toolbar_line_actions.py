@@ -19,7 +19,6 @@ LINE_EXPAND_REFINE = '[data-testid="line-expand-refine-bboxes-button"]'
 LINE_SPLIT_AFTER_WORD = '[data-testid="line-split-after-word-button"]'
 LINE_SPLIT_BY_SELECTION = '[data-testid="line-split-by-selection-button"]'
 LINE_FORM_PARAGRAPH = '[data-testid="line-form-paragraph-button"]'
-LINE_GT_TO_OCR = '[data-testid="line-copy-gt-to-ocr-toolbar-button"]'
 LINE_OCR_TO_GT = '[data-testid="line-copy-ocr-to-gt-toolbar-button"]'
 LINE_VALIDATE = '[data-testid="line-validate-toolbar-button"]'
 LINE_UNVALIDATE = '[data-testid="line-unvalidate-toolbar-button"]'
@@ -38,7 +37,6 @@ ALL_LINE_BUTTONS = [
     LINE_SPLIT_AFTER_WORD,
     LINE_SPLIT_BY_SELECTION,
     LINE_FORM_PARAGRAPH,
-    LINE_GT_TO_OCR,
     LINE_OCR_TO_GT,
     LINE_VALIDATE,
     LINE_UNVALIDATE,
@@ -131,7 +129,6 @@ def test_line_scope_buttons_enabled_with_selection(
     for selector in [
         LINE_REFINE,
         LINE_EXPAND_REFINE,
-        LINE_GT_TO_OCR,
         LINE_OCR_TO_GT,
         LINE_VALIDATE,
         LINE_UNVALIDATE,
@@ -169,7 +166,6 @@ def test_line_scope_buttons_have_tooltips(browser_app_url: str, browser_page) ->
         (LINE_SPLIT_AFTER_WORD, "Split the selected line"),
         (LINE_SPLIT_BY_SELECTION, "Split line"),
         (LINE_FORM_PARAGRAPH, "Select lines to form a new paragraph"),
-        (LINE_GT_TO_OCR, "Copy ground truth text to OCR"),
         (LINE_OCR_TO_GT, "Copy OCR text to ground truth"),
         (LINE_VALIDATE, "Validate all words in selected lines"),
         (LINE_UNVALIDATE, "Unvalidate all words in selected lines"),
@@ -212,27 +208,6 @@ def test_line_expand_refine(browser_app_url: str, browser_page) -> None:
     _select_line(page, 0)
     page.locator(LINE_EXPAND_REFINE).click()
     _wait_for_notification(page)
-
-
-@pytest.mark.browser
-def test_line_copy_gt_to_ocr(browser_app_url: str, browser_page) -> None:
-    """Select line, click GT->OCR: OCR labels update to match GT values."""
-    page = browser_page
-    _setup(page, browser_app_url)
-    _switch_to_all_lines(page)
-
-    # Read first GT value before action
-    gt_input = _get_gt_inputs(page).first
-    expect(gt_input).to_be_visible()
-    gt_value = gt_input.input_value()
-
-    _select_line(page, 0)
-    page.locator(LINE_GT_TO_OCR).click()
-    page.wait_for_timeout(1000)
-
-    # First OCR label should now match the GT value
-    ocr_label = _get_ocr_labels(page).first
-    expect(ocr_label).to_have_text(gt_value)
 
 
 @pytest.mark.browser

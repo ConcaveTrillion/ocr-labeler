@@ -18,7 +18,6 @@ WORD_REFINE = '[data-testid="word-refine-bboxes-button"]'
 WORD_EXPAND_REFINE = '[data-testid="word-expand-refine-bboxes-button"]'
 WORD_FORM_LINE = '[data-testid="word-form-line-button"]'
 WORD_FORM_PARAGRAPH = '[data-testid="word-form-paragraph-button"]'
-WORD_GT_TO_OCR = '[data-testid="word-copy-gt-to-ocr-button"]'
 WORD_OCR_TO_GT = '[data-testid="word-copy-ocr-to-gt-button"]'
 WORD_VALIDATE = '[data-testid="word-validate-toolbar-button"]'
 WORD_UNVALIDATE = '[data-testid="word-unvalidate-toolbar-button"]'
@@ -35,7 +34,6 @@ ALL_WORD_BUTTONS = [
     WORD_EXPAND_REFINE,
     WORD_FORM_LINE,
     WORD_FORM_PARAGRAPH,
-    WORD_GT_TO_OCR,
     WORD_OCR_TO_GT,
     WORD_VALIDATE,
     WORD_UNVALIDATE,
@@ -120,7 +118,6 @@ def test_word_scope_buttons_enabled_with_selection(
     for selector in [
         WORD_REFINE,
         WORD_EXPAND_REFINE,
-        WORD_GT_TO_OCR,
         WORD_OCR_TO_GT,
         WORD_VALIDATE,
         WORD_UNVALIDATE,
@@ -166,7 +163,7 @@ def test_word_scope_buttons_have_tooltips(browser_app_url: str, browser_page) ->
     # overlap in headless Chromium where tooltip dismiss is unreliable).
     buttons_tooltips = [
         (WORD_MERGE, "Merge selected words"),
-        (WORD_GT_TO_OCR, "Copy ground truth text to OCR"),
+        (WORD_OCR_TO_GT, "Copy OCR text to ground truth"),
         (WORD_DELETE, "Delete selected words"),
     ]
 
@@ -185,7 +182,6 @@ def test_word_scope_buttons_have_tooltips(browser_app_url: str, browser_page) ->
         WORD_EXPAND_REFINE,
         WORD_FORM_LINE,
         WORD_FORM_PARAGRAPH,
-        WORD_GT_TO_OCR,
         WORD_OCR_TO_GT,
         WORD_VALIDATE,
         WORD_UNVALIDATE,
@@ -221,27 +217,6 @@ def test_word_expand_refine(browser_app_url: str, browser_page) -> None:
     _select_word(page, 0)
     page.locator(WORD_EXPAND_REFINE).click()
     _wait_for_notification(page)
-
-
-@pytest.mark.browser
-def test_word_copy_gt_to_ocr(browser_app_url: str, browser_page) -> None:
-    """Select word, click GT->OCR: OCR label updates to match GT value."""
-    page = browser_page
-    _setup(page, browser_app_url)
-    _switch_to_all_lines(page)
-
-    # Read first GT value before action
-    gt_input = _get_gt_inputs(page).first
-    expect(gt_input).to_be_visible()
-    gt_value = gt_input.input_value()
-
-    _select_word(page, 0)
-    page.locator(WORD_GT_TO_OCR).click()
-    page.wait_for_timeout(1000)
-
-    # First OCR label should now match the GT value
-    ocr_label = _get_ocr_labels(page).first
-    expect(ocr_label).to_have_text(gt_value)
 
 
 @pytest.mark.browser

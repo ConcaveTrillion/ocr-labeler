@@ -486,37 +486,12 @@ class WordMatchRenderer:
 
                     # Right side: Action buttons
                     logger.debug(
-                        "Line %s: status=%s, gt_to_ocr_callback=%s, ocr_to_gt_callback=%s",
+                        "Line %s: status=%s, ocr_to_gt_callback=%s",
                         line_match.line_index,
                         line_match.overall_match_status,
-                        self._view.copy_gt_to_ocr_callback is not None,
                         self._view.copy_ocr_to_gt_callback is not None,
                     )
                     with ui.row().classes("items-center"):
-                        if (
-                            line_match.overall_match_status != MatchStatus.EXACT
-                            and self._view.copy_gt_to_ocr_callback
-                        ):
-                            logger.debug(
-                                "Adding GT\u2192OCR button for line %s",
-                                line_match.line_index,
-                            )
-                            gt_to_ocr_button = ui.button(
-                                "GT\u2192OCR",
-                                icon="content_copy",
-                            ).tooltip(
-                                "Copy ground truth text to OCR text for all words in this line"
-                            )
-                            gt_to_ocr_button.props(
-                                'data-testid="line-gt-to-ocr-button"'
-                            )
-                            style_action_button(gt_to_ocr_button)
-                            gt_to_ocr_button.on_click(
-                                lambda: self._view.actions._handle_copy_gt_to_ocr(
-                                    line_match.line_index
-                                )
-                            )
-
                         if (
                             line_match.overall_match_status != MatchStatus.EXACT
                             and self._view.copy_ocr_to_gt_callback

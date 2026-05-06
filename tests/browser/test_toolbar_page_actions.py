@@ -15,7 +15,6 @@ from .helpers import load_project, wait_for_app_ready, wait_for_page_loaded
 
 PAGE_REFINE = '[data-testid="page-refine-bboxes-button"]'
 PAGE_EXPAND_REFINE = '[data-testid="page-expand-refine-bboxes-button"]'
-PAGE_GT_TO_OCR = '[data-testid="page-copy-gt-to-ocr-button"]'
 PAGE_OCR_TO_GT = '[data-testid="page-copy-ocr-to-gt-button"]'
 PAGE_VALIDATE = '[data-testid="page-validate-button"]'
 PAGE_UNVALIDATE = '[data-testid="page-unvalidate-button"]'
@@ -64,14 +63,13 @@ def _get_ocr_labels(page: Page):
 
 @pytest.mark.browser
 def test_page_scope_buttons_present(browser_app_url: str, browser_page) -> None:
-    """All 6 page-scope toolbar buttons are visible after project load."""
+    """All 5 page-scope toolbar buttons are visible after project load."""
     page = browser_page
     _setup(page, browser_app_url)
 
     for selector in [
         PAGE_REFINE,
         PAGE_EXPAND_REFINE,
-        PAGE_GT_TO_OCR,
         PAGE_OCR_TO_GT,
         PAGE_VALIDATE,
         PAGE_UNVALIDATE,
@@ -88,7 +86,6 @@ def test_page_scope_buttons_have_tooltips(browser_app_url: str, browser_page) ->
     buttons_tooltips = [
         (PAGE_REFINE, "Refine all bounding boxes"),
         (PAGE_EXPAND_REFINE, "Expand then refine"),
-        (PAGE_GT_TO_OCR, "Copy all ground truth text to OCR"),
         (PAGE_OCR_TO_GT, "Copy all OCR text to ground truth"),
         (PAGE_VALIDATE, "Validate all words"),
         (PAGE_UNVALIDATE, "Unvalidate all words"),
@@ -127,26 +124,6 @@ def test_page_expand_refine_bboxes_click(browser_app_url: str, browser_page) -> 
 
     page.locator(PAGE_EXPAND_REFINE).click()
     _wait_for_notification(page)
-
-
-@pytest.mark.browser
-def test_page_copy_gt_to_ocr(browser_app_url: str, browser_page) -> None:
-    """Click GT→OCR (page): OCR labels update to match GT values."""
-    page = browser_page
-    _setup(page, browser_app_url)
-
-    # Read first GT input value
-    gt_input = _get_gt_inputs(page).first
-    expect(gt_input).to_be_visible()
-    gt_value = gt_input.input_value()
-
-    # Click page-level GT→OCR
-    page.locator(PAGE_GT_TO_OCR).click()
-    page.wait_for_timeout(1000)
-
-    # First OCR label should now match the first GT value
-    ocr_label = _get_ocr_labels(page).first
-    expect(ocr_label).to_have_text(gt_value)
 
 
 @pytest.mark.browser

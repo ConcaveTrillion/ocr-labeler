@@ -132,15 +132,6 @@ class WordMatchActions:
     # Page-level copy actions
     # ------------------------------------------------------------------
 
-    def _handle_copy_page_gt_to_ocr(self, _event: ClickEvent = None) -> None:
-        self._copy_lines(
-            self._view._get_all_line_indices(),
-            self._view.copy_gt_to_ocr_callback,
-            direction_label="ground truth to OCR",
-            no_selection_message="No lines available on this page",
-            no_text_message="No ground truth text found to copy",
-        )
-
     def _handle_copy_page_ocr_to_gt(self, _event: ClickEvent = None) -> None:
         self._copy_lines(
             self._view._get_all_line_indices(),
@@ -153,17 +144,6 @@ class WordMatchActions:
     # ------------------------------------------------------------------
     # Paragraph-level copy actions
     # ------------------------------------------------------------------
-
-    def _handle_copy_selected_paragraphs_gt_to_ocr(
-        self, _event: ClickEvent = None
-    ) -> None:
-        self._copy_lines(
-            self._view._get_selected_paragraph_line_indices(),
-            self._view.copy_gt_to_ocr_callback,
-            direction_label="ground truth to OCR",
-            no_selection_message="Select at least one paragraph to copy",
-            no_text_message="No ground truth text found to copy",
-        )
 
     def _handle_copy_selected_paragraphs_ocr_to_gt(
         self, _event: ClickEvent = None
@@ -180,15 +160,6 @@ class WordMatchActions:
     # Line-level copy actions
     # ------------------------------------------------------------------
 
-    def _handle_copy_selected_lines_gt_to_ocr(self, _event: ClickEvent = None) -> None:
-        self._copy_lines(
-            self._view._get_effective_selected_lines(),
-            self._view.copy_gt_to_ocr_callback,
-            direction_label="ground truth to OCR",
-            no_selection_message="Select at least one line to copy",
-            no_text_message="No ground truth text found to copy",
-        )
-
     def _handle_copy_selected_lines_ocr_to_gt(self, _event: ClickEvent = None) -> None:
         self._copy_lines(
             self._view._get_effective_selected_lines(),
@@ -201,15 +172,6 @@ class WordMatchActions:
     # ------------------------------------------------------------------
     # Word-level copy actions
     # ------------------------------------------------------------------
-
-    def _handle_copy_selected_words_gt_to_ocr(self, _event: ClickEvent = None) -> None:
-        self._copy_lines(
-            self._view._get_selected_word_line_indices(),
-            self._view.copy_gt_to_ocr_callback,
-            direction_label="ground truth to OCR",
-            no_selection_message="Select at least one word to copy",
-            no_text_message="No ground truth text found to copy",
-        )
 
     def _handle_copy_selected_words_ocr_to_gt(self, _event: ClickEvent = None) -> None:
         if self._view.copy_selected_words_ocr_to_gt_callback is None:
@@ -1653,35 +1615,6 @@ class WordMatchActions:
             success_message=f"Deleted line {line_index + 1}",
             failure_message=f"Failed to delete line {line_index + 1}",
         )
-
-    def _handle_copy_gt_to_ocr(self, line_index: int):
-        """Handle the GT->OCR button click."""
-        logger.debug("Handling GT->OCR copy for line index %d", line_index)
-        if self._view.copy_gt_to_ocr_callback:
-            try:
-                logger.debug("Calling copy_gt_to_ocr_callback for line %d", line_index)
-                success = self._view.copy_gt_to_ocr_callback(line_index)
-                if success:
-                    logger.debug("GT->OCR copy successful for line %d", line_index)
-                    self._view._safe_notify(
-                        f"Copied ground truth to OCR text for line {line_index + 1}",
-                        type_="positive",
-                    )
-                else:
-                    logger.debug(
-                        "GT->OCR copy failed - no ground truth text found for line %d",
-                        line_index,
-                    )
-                    self._view._safe_notify(
-                        f"No ground truth text found to copy in line {line_index + 1}",
-                        type_="warning",
-                    )
-            except Exception as e:
-                logger.exception("Error copying GT->OCR for line %s", line_index)
-                self._view._safe_notify(f"Error copying GT->OCR: {e}", type_="negative")
-        else:
-            logger.debug("No copy_gt_to_ocr_callback available")
-            self._view._safe_notify("Copy function not available", type_="warning")
 
     def _handle_copy_ocr_to_gt(self, line_index: int):
         """Handle the OCR->GT button click."""

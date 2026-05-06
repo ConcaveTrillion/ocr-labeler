@@ -1,7 +1,5 @@
 """Tests for LineOperations ground-truth editing methods."""
 
-from unittest.mock import MagicMock
-
 import pytest
 from pd_book_tools.geometry.bounding_box import BoundingBox
 from pd_book_tools.geometry.point import Point
@@ -10,19 +8,6 @@ from pd_book_tools.ocr.page import Page
 from pd_book_tools.ocr.word import Word
 
 from pd_ocr_labeler.operations.ocr.line_operations import LineOperations
-
-
-def _configure_mock_page(page):
-    """Wire up validated_line_words on a MagicMock(spec=Page)."""
-
-    def _validated_line_words(line_index):
-        lines = page.lines
-        if line_index < 0 or line_index >= len(lines):
-            return None
-        return list(lines[line_index].words)
-
-    page.validated_line_words = _validated_line_words
-    return page
 
 
 def _bbox(x1: int, y1: int, x2: int, y2: int) -> BoundingBox:
@@ -65,52 +50,6 @@ class TestLineOperations:
         line2 = _line([word3], 40)
 
         return Page(width=100, height=100, page_index=0, items=[line1, line2])
-
-    # ------------------------------------------------------------------
-    # copy_ground_truth_to_ocr
-    # ------------------------------------------------------------------
-
-    def test_copy_ground_truth_to_ocr_success(self, operations, mock_page_with_lines):
-        """Successfully copies ground truth to OCR text."""
-        result = operations.copy_ground_truth_to_ocr(mock_page_with_lines, 0)
-
-        assert result is True
-        line1 = mock_page_with_lines.lines[0]
-        assert line1.words[0].text == "Hello"
-        assert line1.words[1].text == "World"
-
-    def test_copy_ground_truth_to_ocr_no_ground_truth(
-        self, operations, mock_page_with_lines
-    ):
-        """Copying ground truth when none exists returns False."""
-        result = operations.copy_ground_truth_to_ocr(mock_page_with_lines, 1)
-
-        assert result is False
-        line2 = mock_page_with_lines.lines[1]
-        assert line2.words[0].text == "test"
-
-    def test_copy_ground_truth_to_ocr_invalid_line_index(
-        self, operations, mock_page_with_lines
-    ):
-        """Copying ground truth with invalid line index returns False."""
-        result = operations.copy_ground_truth_to_ocr(mock_page_with_lines, 5)
-
-        assert result is False
-
-    def test_copy_ground_truth_to_ocr_no_page(self, operations):
-        """Copying ground truth with no page returns False."""
-        result = operations.copy_ground_truth_to_ocr(None, 0)
-
-        assert result is False
-
-    def test_copy_ground_truth_to_ocr_no_lines(self, operations):
-        """Copying ground truth when page has no lines returns False."""
-        page = MagicMock(spec=Page)
-        page.lines = []
-        _configure_mock_page(page)
-        result = operations.copy_ground_truth_to_ocr(page, 0)
-
-        assert result is False
 
     # ------------------------------------------------------------------
     # copy_ocr_to_ground_truth

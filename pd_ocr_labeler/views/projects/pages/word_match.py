@@ -54,7 +54,6 @@ class WordMatchView:
 
     def __init__(
         self,
-        copy_gt_to_ocr_callback: SingleLineAction | None = None,
         copy_ocr_to_gt_callback: SingleLineAction | None = None,
         copy_selected_words_ocr_to_gt_callback: WordKeysAction | None = None,
         merge_lines_callback: LineIndicesAction | None = None,
@@ -93,8 +92,7 @@ class WordMatchView:
         original_image_source_provider: Callable[[], str] | None = None,
     ):
         logger.debug(
-            "Initializing WordMatchView with copy_gt_to_ocr_callback=%s, copy_ocr_to_gt_callback=%s",
-            copy_gt_to_ocr_callback is not None,
+            "Initializing WordMatchView with copy_ocr_to_gt_callback=%s",
             copy_ocr_to_gt_callback is not None,
         )
         self.view_model = WordMatchViewModel()
@@ -104,7 +102,6 @@ class WordMatchView:
         self.lines_container = None
         self.filter_selector = None
         self.filter_mode = "Unvalidated Lines"  # Default filter mode
-        self.copy_gt_to_ocr_callback = copy_gt_to_ocr_callback
         self.copy_ocr_to_gt_callback = copy_ocr_to_gt_callback
         self.copy_selected_words_ocr_to_gt_callback = (
             copy_selected_words_ocr_to_gt_callback
