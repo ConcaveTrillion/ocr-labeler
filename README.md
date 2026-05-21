@@ -2,7 +2,7 @@ OCR Labeler (NiceGUI UI)
 ========================
 
 > **Superseded by [`pd-ocr-labeler-spa`](../pd-ocr-labeler-spa/).**
-> This NiceGUI labeler is no longer under active development as of 2026-05-16.
+> This NiceGUI labeler is no longer under active development as of 2026-05-21.
 
 Web UI for navigating OCR page images, reviewing overlays, and editing
 OCR output against ground truth text. Built with
