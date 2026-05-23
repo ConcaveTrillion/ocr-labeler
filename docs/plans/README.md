@@ -28,7 +28,7 @@ Status: planning snapshots; updated 2026-04-16 to reflect current implementation
 ## UI Planning
 
 - [Unified Image Overlay Layers and Selection Mode Controls](image-overlay-layer-controls-plan.md)
-- [Browser UI Test Plan (14-commit phased coverage)](browser-ui-test-plan.md)
+- [Browser UI Test Plan (14-commit phased coverage — archived)](../archive/plans/browser-ui-test-plan.md)
 
 ## Known Issues
 
@@ -41,4 +41,4 @@ Status: planning snapshots; updated 2026-04-16 to reflect current implementation
 
 ## Immediate Next Step
 
-- [Next Step](next-step.md)
+- [Next Step (archived — mop-up phase complete)](../archive/plans/next-step.md)
