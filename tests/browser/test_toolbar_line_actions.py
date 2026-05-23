@@ -382,14 +382,14 @@ def test_line_form_paragraph(browser_app_url: str, browser_page) -> None:
     merge_btn = page.locator('[data-testid="paragraph-merge-button"]')
     expect(merge_btn).to_be_enabled(timeout=10_000)
     merge_btn.click()
-    page.wait_for_timeout(1000)
 
-    paras_after_merge = page.locator(PARA_EXPANDER).count()
-    assert paras_after_merge == paras_before - 1
+    # Wait for DOM to reflect the merge before counting — avoids stale-count race
+    expect(page.locator(PARA_EXPANDER)).to_have_count(paras_before - 1, timeout=10_000)
 
-    # Deselect all paragraph checkboxes
+    # Deselect all paragraph checkboxes; re-snapshot count after DOM has settled
     para_checkboxes = page.locator('[data-testid="paragraph-checkbox"]')
-    for i in range(para_checkboxes.count()):
+    checkbox_count = para_checkboxes.count()
+    for i in range(checkbox_count):
         cb = para_checkboxes.nth(i)
         if cb.is_checked():
             cb.click()
