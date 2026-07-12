@@ -16,13 +16,13 @@ Install
 One-line install (Linux / macOS):
 
 ```sh
-curl -sSL https://raw.githubusercontent.com/ConcaveTrillion/pd-ocr-labeler/main/install.sh | sh
+curl -sSL https://raw.githubusercontent.com/ConcaveTrillion/pd-ocr-labeler/master/install.sh | sh
 ```
 
 Windows (PowerShell):
 
 ```powershell
-irm https://raw.githubusercontent.com/ConcaveTrillion/pd-ocr-labeler/main/install.ps1 | iex
+irm https://raw.githubusercontent.com/ConcaveTrillion/pd-ocr-labeler/master/install.ps1 | iex
 ```
 
 Then run from any folder containing page images:

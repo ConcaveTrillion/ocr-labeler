@@ -4,7 +4,7 @@
 #       https://github.com/ConcaveTrillion/pd-ocr-labeler/issues
 #
 # Usage (run in PowerShell):
-#   irm https://raw.githubusercontent.com/ConcaveTrillion/pd-ocr-labeler/main/install.ps1 | iex
+#   irm https://raw.githubusercontent.com/ConcaveTrillion/pd-ocr-labeler/master/install.ps1 | iex
 
 $ErrorActionPreference = "Stop"
 

@@ -4,7 +4,7 @@ set -e
 # Install pd-ocr-labeler as a standalone tool using uv.
 #
 # Usage:
-#   curl -sSL https://raw.githubusercontent.com/ConcaveTrillion/pd-ocr-labeler/main/install.sh | sh
+#   curl -sSL https://raw.githubusercontent.com/ConcaveTrillion/pd-ocr-labeler/master/install.sh | sh
 
 # Install uv if not already present
 if ! command -v uv >/dev/null 2>&1; then
