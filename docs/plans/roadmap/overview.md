@@ -1,3 +1,11 @@
+---
+kind: roadmap
+status: partial
+owner: repository maintainers
+created: 2026-02-15
+last_verified: 2026-07-14
+---
+
 # OCR Labeler Roadmap Overview
 
 Development roadmap for OCR Labeler.
@@ -23,7 +31,7 @@ Status: forward roadmap snapshot (updated 2026-04-22).
   pd-book-tools`, `.venv/.pd-dev-local` marker, or `PD_DEV_LOCAL=1`),
   add `upgrade-deps-local` sibling that re-applies editable installs
   after `uv sync`. Workspace-wide standard, spec at
-  [`docs/dev-local-upgrade-flow.md`](../../dev-local-upgrade-flow.md).
+  [`docs/runbooks/dev-local-upgrade-flow.md`](../../runbooks/dev-local-upgrade-flow.md).
   Applicable but deferred — legacy NiceGUI labeler is being phased out
   in favor of `pd-ocr-labeler-spa`; land the fix when the workspace
   rollout reaches this repo, not blocked on SPA cutover since the legacy

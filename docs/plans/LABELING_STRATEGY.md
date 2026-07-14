@@ -1,3 +1,11 @@
+---
+kind: strategy
+status: active
+owner: repository maintainers
+created: 2026-05-07
+last_verified: 2026-07-14
+---
+
 # Solo OCR Labeling Strategy (Limited Daily Time)
 
 This plan is optimized for one person working on 1900-era book OCR with limited time each day.

@@ -1,3 +1,11 @@
+---
+kind: architecture
+status: active
+owner: repository maintainers
+created: 2026-02-15
+last_verified: 2026-07-14
+---
+
 # Multi-Tab Architecture Overview
 
 This document describes the per-session isolation model used for multi-tab behavior.

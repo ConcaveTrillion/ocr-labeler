@@ -1,14 +1,35 @@
+---
+kind: spec
+status: draft
+owner: repository maintainers
+created: 2026-05-07
+last_verified: 2026-07-14
+---
+
 # Dev-Local Upgrade Flow (Spec)
+
+## Adversarial Review
+
+Stage: parked draft reviewed during the 2026-07-14 migration. Source: comparison
+with the Makefile, `DEVELOPMENT.md`, and current setup flow. The review accepted
+that editable dependency replacement remains a real hazard, but found no
+implemented detection, refusal, marker, environment switch, or local-upgrade
+target. It also found that ownership may move to a successor application.
+
+The result remains draft. The review corrected broken links and preserves the
+safety requirement as deferred intent; it does not claim the workflow shipped.
+Residual risks are silent editable-install replacement and duplicated policy
+across repositories.
 
 Status: **spec only — not yet implemented.** Workspace-wide standard,
 authored 2026-05-07. Tracked in
-[`docs/planning/roadmap/overview.md`](planning/roadmap/overview.md).
+[`docs/plans/roadmap/overview.md`](../plans/roadmap/overview.md).
 
 ## Repo-specific status
 
 **Applicable, deferred-pending-deprecation.** This repo (legacy NiceGUI
 labeler) is being phased out in favor of
-[`pd-ocr-labeler-spa`](../../pd-ocr-labeler-spa/) (FastAPI + React port).
+`pd-ocr-labeler-spa` (FastAPI + React port).
 However, while the migration is in flight the legacy labeler still
 receives dependency updates — most notably via `make upgrade-pd-book-tools`
 and `make upgrade-deps` — and a developer running it against an editable

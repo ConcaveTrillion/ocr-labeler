@@ -1,3 +1,11 @@
+---
+kind: architecture
+status: active
+owner: repository maintainers
+created: 2026-02-15
+last_verified: 2026-07-14
+---
+
 # NiceGUI Async Refactor Overview
 
 This document summarizes the async/threading direction for NiceGUI integration.

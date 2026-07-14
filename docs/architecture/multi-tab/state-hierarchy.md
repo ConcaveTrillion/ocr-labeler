@@ -1,3 +1,11 @@
+---
+kind: architecture
+status: active
+owner: repository maintainers
+created: 2026-02-15
+last_verified: 2026-07-14
+---
+
 # Multi-Tab State Hierarchy
 
 Status: validated against `pd_ocr_labeler/state/app_state.py` on 2026-02-15.

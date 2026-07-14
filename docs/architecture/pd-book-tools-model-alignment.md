@@ -1,3 +1,11 @@
+---
+kind: architecture
+status: partial
+owner: repository maintainers
+created: 2026-02-15
+last_verified: 2026-07-14
+---
+
 # pd-book-tools Model Alignment
 
 Purpose: identify dynamic/custom attributes currently attached in

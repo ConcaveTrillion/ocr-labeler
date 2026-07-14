@@ -1,13 +1,22 @@
+---
+kind: index
+status: active
+owner: repository maintainers
+created: 2026-02-15
+last_verified: 2026-07-14
+---
+
 # Planning Docs
 
 Planning and roadmap documents are grouped here into smaller files.
 
-Status: planning snapshots; updated 2026-04-16 to reflect current implementation.
+Status: current and deferred work, reconciled 2026-07-14.
 
 ## Related Docs
 
 - Architecture index: [../architecture/README.md](../architecture/README.md)
 - Project README: [../../README.md](../../README.md)
+- Labeling strategy: [LABELING_STRATEGY.md](LABELING_STRATEGY.md)
 
 ## Product Roadmap
 
@@ -21,24 +30,8 @@ Status: planning snapshots; updated 2026-04-16 to reflect current implementation
 ## Persistence Planning
 
 - [Persistence & Session Cache Plan](persistence-session-cache-plan.md)
-- [User Persistence Metadata Schema Plan](user-persistence-metadata-schema.md)
 - [Word/Line Derived Cache Planning](persistence-word-line-derived-cache.md)
-- [pd-book-tools Page Provenance Copilot Brief](pd-book-tools-page-provenance-copilot-brief.md)
 
-## UI Planning
-
-- [Unified Image Overlay Layers and Selection Mode Controls](image-overlay-layer-controls-plan.md)
-- [Browser UI Test Plan (14-commit phased coverage — archived)](../archive/plans/browser-ui-test-plan.md)
-
-## Known Issues
-
-- **Flaky test under parallel execution**:
-  `test_expand_refine_bboxes_button_triggers_operation` in
-  `tests/integration/test_project_loading.py` intermittently fails when run
-  with `pytest -n auto` but passes in isolation. Likely a race condition or
-  shared state issue in the NiceGUI test harness. Needs investigation and a
-  fix to ensure reliable CI.
-
-## Immediate Next Step
-
-- [Next Step (archived — mop-up phase complete)](../archive/plans/next-step.md)
+Implemented overlay, provenance, and metadata-schema plans are represented by
+[current architecture](../architecture/README.md) and retirement tombstones in
+[decisions](../context/decisions.md).

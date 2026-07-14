@@ -1,8 +1,17 @@
+---
+kind: index
+status: active
+owner: repository maintainers
+created: 2025-08-21
+last_verified: 2026-07-14
+---
+
 OCR Labeler (NiceGUI UI)
 ========================
 
-> **Superseded by [`pd-ocr-labeler-spa`](../pd-ocr-labeler-spa/).**
-> This NiceGUI labeler is no longer under active development as of 2026-05-21.
+> **Status:** This maintained NiceGUI application is being phased out in favor
+> of `pd-ocr-labeler-spa`. Use this repository for the supported legacy
+> workflow and consult the roadmap before starting new product work here.
 
 Web UI for navigating OCR page images, reviewing overlays, and editing
 OCR output against ground truth text. Built with
@@ -53,7 +62,7 @@ Architecture
 - [Architecture index](docs/architecture/README.md) — code map, NiceGUI
   patterns, async, multi-tab session isolation, threading, model
   alignment.
-- [Planning / roadmap](docs/planning/README.md) — phased feature list
+- [Planning / roadmap](docs/plans/README.md) — phased feature list
   and editing roadmap.
 
 AI agent docs
@@ -69,7 +78,7 @@ Doc retrieval order (for AI prompts)
 2. [`docs/usage/README.md`](docs/usage/README.md) — end-user behavior.
 3. [`docs/architecture/README.md`](docs/architecture/README.md) —
    internals.
-4. [`docs/planning/README.md`](docs/planning/README.md) — roadmap.
+4. [`docs/plans/README.md`](docs/plans/README.md) — roadmap.
 5. [`docs/architecture/nicegui-patterns.md`](docs/architecture/nicegui-patterns.md)
    for NiceGUI behavior.
 6. [`docs/architecture/async/overview.md`](docs/architecture/async/overview.md)

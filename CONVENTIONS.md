@@ -1,3 +1,11 @@
+---
+kind: process
+status: active
+owner: repository maintainers
+created: 2026-05-11
+last_verified: 2026-07-14
+---
+
 # Conventions — pd-ocr-labeler
 
 <!-- workspace-conventions:start -->

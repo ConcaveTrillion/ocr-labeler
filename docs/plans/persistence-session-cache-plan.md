@@ -1,4 +1,34 @@
+---
+kind: plan
+status: partial
+owner: repository maintainers
+created: 2026-02-15
+last_verified: 2026-07-14
+---
+
 # Persistence & Session Cache Plan
+
+## Goal
+
+Complete remaining persistence reliability work without replacing the schema
+2.1 envelope and source-lane behavior that already shipped.
+
+## Architecture
+
+Current truth lives in [persistence architecture](../architecture/persistence.md).
+This partial plan now covers only disconnect flush, bounded prewarm, and any
+compatibility gate that current tests do not already establish.
+
+## Tech Stack
+
+Use the existing Python state, persistence, and `UserPageEnvelope` modules with
+pytest coverage. No new cache framework is selected by this plan.
+
+## Global Constraints
+
+Preserve atomic writes, legacy reads, OS-aware storage, provenance, and source
+lane isolation. Do not present unchecked original tasks as unimplemented when
+current code and tests prove they shipped.
 
 ## Problem
 
