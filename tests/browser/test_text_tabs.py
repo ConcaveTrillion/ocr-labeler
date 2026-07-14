@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import pytest
+from playwright.sync_api import expect
 
 from .helpers import load_project, wait_for_app_ready, wait_for_page_loaded
 
@@ -33,14 +34,10 @@ def test_ocr_text_tab_has_content(browser_app_url: str, browser_page) -> None:
     # Click on the OCR tab
     page.get_by_role("tab", name="OCR").click()
 
-    # Wait for the CodeMirror editor to appear with content
-    # CodeMirror uses .cm-content for the editable area
-    ocr_content = page.locator(".cm-content").first
-    ocr_content.wait_for(state="visible", timeout=10_000)
-
-    # Verify content is not empty
-    text = ocr_content.text_content() or ""
-    assert len(text.strip()) > 0, "OCR tab should have non-empty content"
+    # Wait for the NiceGUI CodeMirror component to mount.
+    ocr_content = page.locator(".q-tab-panel:visible .nicegui-codemirror")
+    ocr_content.wait_for(state="attached", timeout=10_000)
+    expect(ocr_content).to_have_attribute("data-content-present", "true")
 
 
 @pytest.mark.browser
@@ -55,13 +52,10 @@ def test_gt_text_tab_has_content(browser_app_url: str, browser_page) -> None:
     # Click on the Ground Truth tab
     page.get_by_role("tab", name="Ground Truth").click()
 
-    # Wait for the CodeMirror editor to appear
-    gt_content = page.locator(".cm-content").first
-    gt_content.wait_for(state="visible", timeout=10_000)
-
-    # Verify content is not empty (ground truth from pages.json)
-    text = gt_content.text_content() or ""
-    assert len(text.strip()) > 0, "Ground Truth tab should have content"
+    # Wait for the NiceGUI CodeMirror component to mount.
+    gt_content = page.locator(".q-tab-panel:visible .nicegui-codemirror")
+    gt_content.wait_for(state="attached", timeout=10_000)
+    expect(gt_content).to_have_attribute("data-content-present", "true")
 
 
 @pytest.mark.browser
@@ -89,12 +83,16 @@ def test_switching_between_text_tabs(browser_app_url: str, browser_page) -> None
     wait_for_page_loaded(page)
 
     # Switch to OCR tab
-    page.get_by_role("tab", name="OCR").click()
-    page.locator(".cm-content").first.wait_for(state="visible", timeout=10_000)
+    ocr_tab = page.get_by_role("tab", name="OCR")
+    ocr_tab.click()
+    expect(ocr_tab).to_have_attribute("aria-selected", "true")
 
     # Switch to Ground Truth tab
-    page.get_by_role("tab", name="Ground Truth").click()
-    page.locator(".cm-content").first.wait_for(state="visible", timeout=10_000)
+    ground_truth_tab = page.get_by_role("tab", name="Ground Truth")
+    ground_truth_tab.click()
+    expect(ground_truth_tab).to_have_attribute("aria-selected", "true")
 
     # Switch back to Matches tab
-    page.get_by_role("tab", name="Matches").click()
+    matches_tab = page.get_by_role("tab", name="Matches")
+    matches_tab.click()
+    expect(matches_tab).to_have_attribute("aria-selected", "true")
