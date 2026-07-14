@@ -37,9 +37,8 @@ Evidence: `image_tabs.py`, `user_page_persistence.py`, `page_operations.py`,
 
 ## 2026-07-14: Retirement tombstones
 
-The following documents were retired and deleted. The first migration commit
-is recorded after the retirement wave lands. Current replacements and remaining
-work are shown here.
+The following documents were retired and deleted by commit `d47ed97`. Current
+replacements and remaining work are shown here.
 
 | Old paths | Outcome | Replacement | Rationale kept | Remaining work |
 | --- | --- | --- | --- | --- |
@@ -82,6 +81,5 @@ The archive rows expand to these exact old paths:
 - `docs/archive/research/review-bugs.md`
 - `docs/archive/research/style-inconsistencies.md`
 
-Every row was removed by the retirement-wave commit recorded in the next
-decision entry. The archive globs expand to the exact paths retained in that
-commit's deletion diff.
+Every row was removed by commit `d47ed97`. The archive globs expand to the exact
+paths above and in that commit's deletion diff.
