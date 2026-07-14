@@ -1,3 +1,11 @@
+---
+kind: architecture
+status: active
+owner: repository maintainers
+created: 2026-02-15
+last_verified: 2026-07-14
+---
+
 # NiceGUI Patterns & Guardrails
 
 Project-specific NiceGUI patterns for consistent UI behavior.

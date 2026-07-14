@@ -1,3 +1,11 @@
+---
+kind: roadmap
+status: partial
+owner: repository maintainers
+created: 2026-02-15
+last_verified: 2026-07-14
+---
+
 # Roadmap Track: Persistence and Cache Reliability
 
 **Priority:** High
@@ -21,4 +29,4 @@ This track captures persistence work that cuts across product roadmap milestones
 
 - [Persistence & Session Cache Plan](../persistence-session-cache-plan.md)
 - [Word/Line Derived Cache Planning](../persistence-word-line-derived-cache.md)
-- [User Persistence Metadata Schema Plan](../user-persistence-metadata-schema.md)
+- [Persistence and provenance architecture](../../architecture/persistence.md)

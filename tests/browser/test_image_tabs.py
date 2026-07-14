@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import re
+
 import pytest
 from playwright.sync_api import expect
 
@@ -26,16 +28,15 @@ def test_layer_controls_present(browser_app_url: str, browser_page) -> None:
 
 @pytest.mark.browser
 def test_viewport_image_shows(browser_app_url: str, browser_page) -> None:
-    """On load, verify the viewport image element is visible."""
+    """On load, verify the viewport image element has a rendered source."""
     page = browser_page
     page.goto(browser_app_url, wait_until="networkidle")
     wait_for_app_ready(page)
     load_project(page, "browser-test-project")
     wait_for_page_loaded(page)
 
-    # The interactive image viewport should be present
     viewport = page.locator(".ocr-viewport-img").first
-    viewport.wait_for(state="visible", timeout=30_000)
+    expect(viewport).to_have_attribute("src", re.compile(r"^/.+"), timeout=30_000)
 
 
 @pytest.mark.browser

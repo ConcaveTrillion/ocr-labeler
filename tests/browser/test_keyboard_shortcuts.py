@@ -84,12 +84,13 @@ def test_enter_in_page_input_navigates(browser_app_url: str, browser_page) -> No
     _setup(page, browser_app_url)
 
     page_input = page.locator('[data-testid="nav-page-input"]')
+    previous_image_src = page.locator(".ocr-viewport-img").first.get_attribute("src")
     page_input.fill("2")
     page.wait_for_timeout(200)
     page_input.press("Enter")
 
     page.wait_for_url(re.compile(r"page/2"), timeout=15_000)
-    wait_for_page_loaded(page)
+    wait_for_page_loaded(page, expected_page="2", previous_image_src=previous_image_src)
 
     # Verify page content has changed (page input now shows 2)
     expect(page.locator('[data-testid="nav-page-input"]')).to_have_value("2")

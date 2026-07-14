@@ -1,4 +1,34 @@
+---
+kind: plan
+status: draft
+owner: repository maintainers
+created: 2026-02-15
+last_verified: 2026-07-14
+---
+
 # Phase D Plan: Word/Line Derived Cache
+
+## Goal
+
+Evaluate a persistent derived cache for word and line structures if profiling
+shows that the maintained application still needs it.
+
+## Architecture
+
+The cache would remain derived from authoritative page data and must be safely
+discardable. The current rendered-image cache is a different subsystem and does
+not prove this proposal shipped.
+
+## Tech Stack
+
+No cache library is selected. Any implementation must use the repository's
+Python toolchain and existing persistence boundaries.
+
+## Global Constraints
+
+Version cache entries, invalidate on every authoritative input that affects the
+result, bound disk growth, and preserve correct behavior when the cache is
+absent or corrupt.
 
 ## Context
 

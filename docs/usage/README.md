@@ -1,3 +1,11 @@
+---
+kind: usage
+status: active
+owner: repository maintainers
+created: 2026-05-05
+last_verified: 2026-07-14
+---
+
 # Usage Docs
 
 End-user documentation for the OCR Labeler app. For developer setup,

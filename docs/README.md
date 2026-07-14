@@ -1,3 +1,11 @@
+---
+kind: index
+status: active
+owner: repository maintainers
+created: 2026-05-19
+last_verified: 2026-07-14
+---
+
 # docs/
 
 How documentation is organized in this repo.
@@ -14,6 +22,13 @@ How documentation is organized in this repo.
 | `specs/` | Aspirational, pre-implementation design. | Describing what to build, before code. |
 | `templates/` | Issue, spec, plan, ADR boilerplate. | Adding a starter template for a new doc type. |
 | `usage/` | Downstream reference — how to consume this app/tool/library. | A user or integrator needs to know how to use it. |
+
+Current authored context: [current state](context/current-state.md),
+[intent map](context/intent-map.md), and [decisions](context/decisions.md).
+
+Current promoted architecture includes [image overlays](architecture/image-overlays.md),
+[persistence and provenance](architecture/persistence.md), and
+[browser testing](architecture/browser-testing.md).
 
 Empty folders are intentional and tracked via `.gitkeep`.
 

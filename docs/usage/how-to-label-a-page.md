@@ -1,3 +1,11 @@
+---
+kind: usage
+status: active
+owner: repository maintainers
+created: 2026-05-05
+last_verified: 2026-07-14
+---
+
 # How to Label a Page
 
 This guide walks through one full labeling pass on a single page —
@@ -206,7 +214,7 @@ locations).
 ## Related docs
 
 - Full inventory of every UI button →
-  [`docs/architecture/ui-action-buttons.md`](../architecture/ui-action-buttons.md).
+  [browser-testing architecture](../architecture/browser-testing.md).
 - Where labeled output lives on disk →
   [`DEVELOPMENT.md` — Runtime paths](../../DEVELOPMENT.md#runtime-paths).
 - OCR model selection →

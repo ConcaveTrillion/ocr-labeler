@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import re
+
 from playwright.sync_api import Page, expect
 
 
@@ -40,12 +42,25 @@ def load_project(page: Page, project_name: str, timeout: int = 60_000) -> None:
 
     # Wait for navigation controls to appear (indicates project loaded)
     page.locator('[data-testid="nav-next-button"]').wait_for(state="visible", timeout=timeout)
+    wait_for_page_loaded(page, expected_page="1", timeout=timeout)
 
 
-def wait_for_page_loaded(page: Page, timeout: int = 60_000) -> None:
+def wait_for_page_loaded(
+    page: Page,
+    expected_page: str | None = None,
+    previous_image_src: str | None = None,
+    timeout: int = 60_000,
+) -> None:
     """Wait for page content to finish loading after navigation."""
-    # Wait for image content to render - look for the viewport image or layer controls
-    page.get_by_text("Layers").first.wait_for(state="visible", timeout=timeout)
+    page.locator('[data-testid="nav-page-input"]').wait_for(state="visible", timeout=timeout)
+    expect(page.locator('[data-testid="nav-page-input"]')).to_be_enabled(timeout=timeout)
+    page_input = page.locator('[data-testid="nav-page-input"]')
+    if expected_page is not None:
+        expect(page_input).to_have_value(expected_page, timeout=timeout)
+    viewport = page.locator(".ocr-viewport-img").first
+    expect(viewport).to_have_attribute("src", re.compile(r"^/.+"), timeout=timeout)
+    if previous_image_src is not None:
+        expect(viewport).not_to_have_attribute("src", previous_image_src, timeout=timeout)
 
 
 def navigate_to_page(page: Page, page_number: int, timeout: int = 60_000) -> None:
@@ -56,6 +71,8 @@ def navigate_to_page(page: Page, page_number: int, timeout: int = 60_000) -> Non
         page_number: 1-based page number to navigate to.
         timeout: Maximum time to wait for navigation.
     """
+    previous_image_src = page.locator(".ocr-viewport-img").first.get_attribute("src")
+
     # Find and fill the page number input
     page_input = page.locator('[data-testid="nav-page-input"]')
     page_input.fill(str(page_number))
@@ -64,7 +81,12 @@ def navigate_to_page(page: Page, page_number: int, timeout: int = 60_000) -> Non
     page.locator('[data-testid="nav-goto-button"]').click()
 
     # Wait for navigation to complete
-    wait_for_page_loaded(page, timeout=timeout)
+    wait_for_page_loaded(
+        page,
+        expected_page=str(page_number),
+        previous_image_src=previous_image_src,
+        timeout=timeout,
+    )
 
 
 def get_current_page_number(page: Page) -> str:

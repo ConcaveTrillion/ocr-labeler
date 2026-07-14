@@ -1,3 +1,11 @@
+---
+kind: roadmap
+status: active
+owner: repository maintainers
+created: 2026-02-15
+last_verified: 2026-07-14
+---
+
 # Roadmap Phase 6: Performance and Polish
 
 **Priority:** Low

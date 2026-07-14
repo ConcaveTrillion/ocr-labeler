@@ -1,3 +1,11 @@
+---
+kind: architecture
+status: active
+owner: repository maintainers
+created: 2026-02-15
+last_verified: 2026-07-14
+---
+
 # Threading Architecture for OCR Processing
 
 This document captures the current threading/offload model for OCR-related work in the UI.
@@ -43,4 +51,4 @@ Keep expensive OCR and filesystem operations off the main NiceGUI event loop.
 
 - [Async Overview](async/overview.md)
 - [Migration Patterns](async/migration-patterns.md)
-- [Affected Files and Notes](async/affected-files.md)
+- [Async Overview](async/overview.md)

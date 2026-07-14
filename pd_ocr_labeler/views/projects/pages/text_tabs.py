@@ -546,8 +546,14 @@ class TextTabs:
         """Update text editor values directly (avoids slow binding propagation)."""
         if hasattr(self, "gt_text") and self.gt_text:
             self.gt_text.value = self.model.gt_text
+            self.gt_text.props(
+                f"data-content-present={str(bool(self.model.gt_text.strip())).lower()}"
+            )
         if hasattr(self, "ocr_text") and self.ocr_text:
             self.ocr_text.value = self.model.ocr_text
+            self.ocr_text.props(
+                f"data-content-present={str(bool(self.model.ocr_text.strip())).lower()}"
+            )
 
     def _on_page_state_changed(self):
         """Called when page state changes; update word matches automatically."""

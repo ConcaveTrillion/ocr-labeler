@@ -1,3 +1,11 @@
+---
+kind: architecture
+status: active
+owner: repository maintainers
+created: 2026-02-15
+last_verified: 2026-07-14
+---
+
 # Multi-Tab Pitfalls and Debugging
 
 Status: operational checklist for debugging tab isolation issues.

@@ -1,3 +1,11 @@
+---
+kind: process
+status: active
+owner: repository maintainers
+created: 2026-02-18
+last_verified: 2026-07-14
+---
+
 # CLAUDE — pd-ocr-labeler
 
 NiceGUI web app for reviewing and correcting OCR output. Displays page images

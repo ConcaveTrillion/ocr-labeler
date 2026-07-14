@@ -112,7 +112,7 @@ def browser_app_url(browser_projects_root, tmp_path_factory) -> str:
             try:
                 with urlopen(url, timeout=1):
                     break
-            except URLError:
+            except (TimeoutError, URLError):
                 time.sleep(0.25)
         else:
             raise TimeoutError("Timed out waiting for app to start")

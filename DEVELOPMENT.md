@@ -1,3 +1,11 @@
+---
+kind: usage
+status: active
+owner: repository maintainers
+created: 2026-05-05
+last_verified: 2026-07-14
+---
+
 # Developing pd-ocr-labeler
 
 This document covers the developer workflows for `pd-ocr-labeler`.

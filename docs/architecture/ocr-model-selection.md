@@ -1,3 +1,11 @@
+---
+kind: architecture
+status: active
+owner: repository maintainers
+created: 2026-05-05
+last_verified: 2026-07-14
+---
+
 # OCR Model Selection
 
 Describes how the labeler discovers, selects, and applies DocTR detection +

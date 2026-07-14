@@ -1,10 +1,18 @@
+---
+kind: architecture
+status: active
+owner: repository maintainers
+created: 2026-02-15
+last_verified: 2026-07-14
+---
+
 # Architecture Docs
 
 Architecture documentation is organized into smaller, topic-focused files.
 
 Status: maintained incrementally; validate details against current implementation.
 
-Last validated: 2026-05-04.
+Last validated: 2026-07-14.
 
 ## Current Code Map (2026-05-04 snapshot)
 
@@ -66,7 +74,6 @@ Use this map as the first checkpoint when reconciling architecture docs with imp
 
 - [Overview](async/overview.md)
 - [Migration Patterns](async/migration-patterns.md)
-- [Affected Files and Notes](async/affected-files.md)
 
 ## NiceGUI Usage Patterns
 
@@ -84,6 +91,8 @@ Use this map as the first checkpoint when reconciling architecture docs with imp
 
 - [Threading Architecture](threading-architecture.md)
 
-## Doc Sync Tasks
+## Promoted Current Architecture
 
-- [Architecture Doc Sync Tasks](doc-sync-tasks.md)
+- [Image overlays](image-overlays.md)
+- [Persistence and provenance](persistence.md)
+- [Browser testing](browser-testing.md)

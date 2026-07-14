@@ -1,4 +1,19 @@
+---
+kind: usage
+status: active
+owner: repository maintainers
+created: 2026-05-05
+last_verified: 2026-07-14
+---
+
 # Installing pd-ocr-labeler
+
+## Agent Index
+
+- **Kind:** usage
+- **Status:** active
+- **Read when:** installing, updating, or removing the supported legacy app.
+- **Search terms:** install, update, uninstall, CUDA, CPU, local clone.
 
 The OCR Labeler is a NiceGUI web app. After install, run
 `pd-ocr-labeler-ui .` from any project directory and open the URL it
