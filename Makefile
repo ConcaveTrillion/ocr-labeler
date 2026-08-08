@@ -15,7 +15,7 @@ else
 .PHONY: help setup install uninstall reset reset-full remove-venv reinstall \
 	upgrade-deps upgrade-pd-book-tools prefetch-models \
 	test test-verbose test-single test-k test-browser coverage \
-	lint py-lint md-lint lint-fix py-lint-fix md-lint-fix format pre-commit-check \
+	lint py-lint md-lint lint-fix py-lint-fix md-lint-fix format pre-commit-check update-hooks \
 	ci ci-slow build clean clean-logs clean-cache clean-image-cache \
 	run run-verbose run-page-timing \
 	release-patch release-minor release-major _do-release
@@ -155,6 +155,7 @@ upgrade-deps: ## Upgrade dependencies and sync local environment (auto-swaps CUD
 	@echo "📦 Syncing upgraded dependencies..."
 	uv sync --group all-dev
 	$(_maybe_install_cuda_torch)
+	@$(MAKE) --no-print-directory update-hooks
 	@echo "✅ Dependencies upgraded and environment synced!"
 
 upgrade-pd-book-tools: ## Upgrade pd-book-tools pin to latest GitHub tag
@@ -245,6 +246,13 @@ format: ## Format code (ruff format, then lint)
 pre-commit-check: ## Run pre-commit on all files
 	@echo "🪝 Running pre-commit on all files..."
 	uv run pre-commit run --all-files
+
+update-hooks: ## Bump pinned pre-commit hook revisions in .pre-commit-config.yaml
+	@echo "⬆️  Updating pinned pre-commit hook revisions..."
+	@# The hook exits non-zero when it rewrites the config, which is the success
+	@# case here, so its status is not the target's status.
+	-@uv run pre-commit run pre-commit-update --all-files --hook-stage manual
+	@echo "✅ Hook revisions updated — review the .pre-commit-config.yaml diff."
 
 # ---------------------------------------------------------------------------
 # CI / build
