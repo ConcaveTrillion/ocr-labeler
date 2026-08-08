@@ -212,11 +212,49 @@ class TextTabs:
             "split_word_vertically_and_assign_to_closest_line",
             "Split word vertical closest-line",
         )
-        rebox_word_callback = _make_page_callback(page_state, "rebox_word", "Rebox word")
+        rebox_word_callback = None
+        if page_state is not None and hasattr(page_state, "rebox_word"):
+
+            def rebox_word_callback(
+                line_index: int,
+                word_index: int,
+                x1: float,
+                y1: float,
+                x2: float,
+                y2: float,
+            ) -> bool:
+                logger.debug("Rebox word")
+                result = page_state.rebox_word(line_index, word_index, x1=x1, y1=y1, x2=x2, y2=y2)
+                logger.debug("Rebox word result: %s", result)
+                return result
+
         add_word_callback = _make_page_callback(page_state, "add_word", "Add word")
-        nudge_word_bbox_callback = _make_page_callback(
-            page_state, "nudge_word_bbox", "Nudge word bbox"
-        )
+
+        nudge_word_bbox_callback = None
+        if page_state is not None and hasattr(page_state, "nudge_word_bbox"):
+
+            def nudge_word_bbox_callback(
+                line_index: int,
+                word_index: int,
+                left_delta: float,
+                right_delta: float,
+                top_delta: float,
+                bottom_delta: float,
+                refine_after: bool = True,
+            ) -> bool:
+                logger.debug("Nudge word bbox")
+                result = page_state.nudge_word_bbox(
+                    line_index,
+                    word_index,
+                    left_delta=left_delta,
+                    right_delta=right_delta,
+                    top_delta=top_delta,
+                    bottom_delta=bottom_delta,
+                    refine_after=refine_after,
+                )
+                logger.debug("Nudge word bbox result: %s", result)
+                return result
+
         erase_pixels_rect_callback = _make_page_callback(
             page_state, "erase_pixels_rect", "Erase pixels in rectangle"
         )

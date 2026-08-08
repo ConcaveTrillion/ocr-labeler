@@ -683,7 +683,7 @@ def test_rebox_word_refreshes_overlay_and_notifies(monkeypatch):
         def refresh_page_images(self):
             self.overlay_refresh_called = True
 
-        def rebox_word(self, _line_index, _word_index, _x1, _y1, _x2, _y2):
+        def rebox_word(self, _line_index, _word_index, *, x1, y1, x2, y2):
             return True
 
     page = PageStub()
@@ -691,7 +691,7 @@ def test_rebox_word_refreshes_overlay_and_notifies(monkeypatch):
     notified = []
     page_state.on_change = [lambda: notified.append("changed")]
 
-    result = page_state.rebox_word(0, 1, 10.0, 11.0, 20.0, 21.0)
+    result = page_state.rebox_word(0, 1, x1=10.0, y1=11.0, x2=20.0, y2=21.0)
 
     assert result is True
     assert page.overlay_refresh_called is True
@@ -720,13 +720,13 @@ def test_rebox_word_invalidates_overlay_cache_before_refresh(monkeypatch):
             ):
                 self.cv2_numpy_page_image_word_with_bboxes = "fresh-word-overlay"
 
-        def rebox_word(self, _line_index, _word_index, _x1, _y1, _x2, _y2):
+        def rebox_word(self, _line_index, _word_index, *, x1, y1, x2, y2):
             return True
 
     page = PageStub()
     page_state.current_page = page
 
-    result = page_state.rebox_word(0, 1, 10.0, 11.0, 20.0, 21.0)
+    result = page_state.rebox_word(0, 1, x1=10.0, y1=11.0, x2=20.0, y2=21.0)
 
     assert result is True
     assert page.overlay_refresh_called is True
@@ -755,10 +755,11 @@ def test_nudge_word_bbox_invalidates_overlays_without_eager_refresh(monkeypatch)
             self,
             _line_index,
             _word_index,
-            _left,
-            _right,
-            _top,
-            _bottom,
+            *,
+            left_delta,
+            right_delta,
+            top_delta,
+            bottom_delta,
             refine_after=True,
         ):
             return True
@@ -768,7 +769,9 @@ def test_nudge_word_bbox_invalidates_overlays_without_eager_refresh(monkeypatch)
     notified = []
     page_state.on_change = [lambda: notified.append("changed")]
 
-    result = page_state.nudge_word_bbox(0, 1, 1.0, 1.0, -1.0, -1.0)
+    result = page_state.nudge_word_bbox(
+        0, 1, left_delta=1.0, right_delta=1.0, top_delta=-1.0, bottom_delta=-1.0
+    )
 
     assert result is True
     # Overlays must be invalidated so the async pipeline regenerates them...
@@ -806,10 +809,11 @@ def test_nudge_word_bbox_preserves_original_image_url_stability(monkeypatch):
             self,
             _line_index,
             _word_index,
-            _left,
-            _right,
-            _top,
-            _bottom,
+            *,
+            left_delta,
+            right_delta,
+            top_delta,
+            bottom_delta,
             refine_after=True,
         ):
             return True
@@ -826,7 +830,9 @@ def test_nudge_word_bbox_preserves_original_image_url_stability(monkeypatch):
 
     nonce_before = getattr(page, "_pd_ocr_labeler_overlay_refresh_nonce", None)
 
-    result = page_state.nudge_word_bbox(2, 3, 1.0, 1.0, -1.0, -1.0)
+    result = page_state.nudge_word_bbox(
+        2, 3, left_delta=1.0, right_delta=1.0, top_delta=-1.0, bottom_delta=-1.0
+    )
 
     assert result is True
     nonce_after = getattr(page, "_pd_ocr_labeler_overlay_refresh_nonce", None)

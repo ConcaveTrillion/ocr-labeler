@@ -1140,7 +1140,7 @@ def test_text_tabs_rebox_word_callback_invokes_page_state_method():
         merge_word_left=lambda *_: False,
         merge_word_right=lambda *_: False,
         split_word=lambda *_: False,
-        rebox_word=lambda line_index, word_index, x1, y1, x2, y2: (
+        rebox_word=lambda line_index, word_index, *, x1, y1, x2, y2: (
             calls.append((line_index, word_index, x1, y1, x2, y2)) or True
         ),
     )
@@ -1249,7 +1249,7 @@ def test_text_tabs_nudge_word_bbox_callback_invokes_page_state_method():
         current_page=None,
         _current_page_index=0,
         copy_ground_truth_to_ocr=lambda *_: False,
-        nudge_word_bbox=lambda line_index, word_index, left_delta, right_delta, top_delta, bottom_delta, refine_after=True: (  # noqa: E501
+        nudge_word_bbox=lambda line_index, word_index, *, left_delta, right_delta, top_delta, bottom_delta, refine_after=True: (  # noqa: E501
             calls.append(
                 (
                     line_index,
